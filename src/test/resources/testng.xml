@@ -11,9 +11,10 @@
             </run>
         </groups>
         <classes>
-            <class name="com.gui.HomePageTest"/>
+            <class name="com.gui.LoginPageTest"/>
         </classes>
     </test>
+    <!--
     <parameter name="browser" value="Firefox"/>
     <test name="Test2">
         <groups>
@@ -25,4 +26,5 @@
             <class name="com.gui.HomePageTest"/>
         </classes>
     </test>
+    -->
 </suite>

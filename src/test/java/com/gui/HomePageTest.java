@@ -2,9 +2,7 @@
 package com.gui;
 
 import com.gui.pages.desktop.HomePage;
-import com.gui.pages.desktop.ProductsPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.gui.pages.desktop.ProductsListPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,8 +12,8 @@ public class HomePageTest extends AbstractTest {
     @Test
     public void test(){
         HomePage homePage =new HomePage(getDriver());
-        ProductsPage productsPage= homePage.searchKeyWord("shirt");
-        productsPage.printAllItems();
+        ProductsListPage productsListPage = homePage.searchKeyWord("shirt");
+        productsListPage.printAllItems();
     }
 
     @Test(groups = "group1")

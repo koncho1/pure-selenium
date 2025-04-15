@@ -4,8 +4,7 @@ import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,25 +23,26 @@ public abstract class AbstractPage {
                     .ignoring(ElementNotInteractableException.class);
 
     public void clickElement(WebElement element){
-        wait.until(driver->element.isDisplayed());
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
         logger.info("clicked {}",element);
     }
 
     public void sendKeysElement(WebElement element, String text){
-        wait.until(driver->element.isDisplayed());
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(text);
         logger.info("sent {} to {}",text,element);
     }
 
     public void submitElement(WebElement element){
-        wait.until(driver->element.isDisplayed());
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.submit();
         logger.info("submitted to {}", element);
     }
 
     public AbstractPage(WebDriver driver){
         this.driver=driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         PageFactory.initElements(driver, this);
     }
 }

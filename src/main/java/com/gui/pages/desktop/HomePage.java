@@ -9,7 +9,6 @@ import com.gui.pages.common.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +36,13 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//a[contains(@class, 'dropdown-toggle')]")
     private WebElement currencySelector;
 
-    @FindBy (xpath = "//i[contains(@class, 'fa fa-cart-plus fa-fw')]")
+    @FindBy(xpath = "//a[contains(text(), 'Login or register')]")
+    private WebElement loginButton;
+
+    @FindBy (xpath = "//i[contains(@Class, 'fa-cart-plus')]")
     private WebElement addToCartButton;
 
-    @FindBy (xpath = "//div[contains(@class, 'block_7')]//span[contains(@class , 'label label-orange font14')]")
+    @FindBy (xpath = "//div[contains(@Class, 'block_7')]//span[contains(@Class , 'label-orange')]")
     private WebElement cartItemCountLabel;
 
     public boolean isCartTotalCorrect(String correctCartTotal){
@@ -70,11 +72,16 @@ public class HomePage extends AbstractPage {
         return cartTotalText.getText().contains(currencySign);
     }
 
-    public ProductsPage searchKeyWord(String keyword){
+    public ProductsListPage searchKeyWord(String keyword){
         super.clickElement(searchField);
         super.sendKeysElement(searchField,keyword);
         super.clickElement(searchButton);
-        return new ProductsPage(driver);
+        return new ProductsListPage(driver);
+    }
+
+    public LoginPage getLoginPage(){
+        super.clickElement(loginButton);
+        return new LoginPage(driver);
     }
 
 

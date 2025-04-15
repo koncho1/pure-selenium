@@ -4,12 +4,11 @@ import com.gui.pages.common.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ProductsPage extends AbstractPage {
+public class ProductsListPage extends AbstractPage {
     protected WebDriver driver;
 
     @FindBy (xpath = "//div[contains(@class, 'thumbnails grid row list-inline')]//a[contains(@class, 'prdocutname')]")
@@ -31,7 +30,7 @@ public class ProductsPage extends AbstractPage {
         return !(noProductMessage==null);
     }
 
-    public ProductsPage(WebDriver driver) {
+    public ProductsListPage(WebDriver driver) {
         super(driver);
     }
 
