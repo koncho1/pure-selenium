@@ -15,7 +15,7 @@ public class LoginPageTest extends AbstractTest{
         loginPage.enterLogin("abcdee");
         loginPage.enterPassword("Z6FBty@R2N4NWN2");
         loginPage.submitCredentials();
-        Assert.assertTrue(loginPage.isUserOnMyAccountPage());
+        Assert.assertTrue(loginPage.isUserOnMyAccountPage(),"User is not on My Account page");
     }
 
     @Test(groups = "group1")
@@ -24,7 +24,7 @@ public class LoginPageTest extends AbstractTest{
         LoginPage loginPage = homePage.getLoginPage();
         loginPage.enterLogin("abcdee");
         loginPage.submitCredentials();
-        Assert.assertTrue(loginPage.isALoginErrorPresent());
+        Assert.assertTrue(loginPage.isALoginErrorPresent(),"Login error is not present");
     }
 
     @Test(groups = "group13")
@@ -44,6 +44,6 @@ public class LoginPageTest extends AbstractTest{
         registerPage.enterConfirmPassword("Z6FBty@R2N4NWN2");
         registerPage.checkPrivacyPolicy();
         registerPage.submitRegistration();
-        Assert.assertTrue(registerPage.isAccountCreatedTextPresent());
+        Assert.assertTrue(registerPage.isAccountCreatedTextPresent(),"Account has not been created");
     }
 }

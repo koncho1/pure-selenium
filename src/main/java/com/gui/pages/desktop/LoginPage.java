@@ -35,15 +35,15 @@ public class LoginPage extends AbstractPage {
     }
 
     public void enterPassword(String password){
-        super.sendKeysElement(passwordField, password);
+        super.sendKeysElement(passwordField, password, "passwordField");
     }
 
     public void enterLogin(String login){
-        super.sendKeysElement(loginField, login);
+        super.sendKeysElement(loginField, login, "loginField");
     }
 
     public void submitCredentials(){
-        super.clickElement(loginButton);
+        super.clickElement(loginButton, "loginButton");
     }
 
     public boolean isUserOnMyAccountPage(){
@@ -57,7 +57,7 @@ public class LoginPage extends AbstractPage {
     }
 
     public RegisterPage clickRegisterButton(){
-        super.clickElement(registerButton);
+        super.clickElement(registerButton, "registerButton");
         return new RegisterPage(driver);
     }
 

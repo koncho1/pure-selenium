@@ -1,15 +1,18 @@
 package com.gui;
 
-import com.gui.pages.desktop.HomePage;
+import com.gui.pages.common.AbstractPage;
+import com.gui.pages.common.DriverFactory;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.*;
-import org.testng.xml.internal.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.AfterMethod;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,54 +20,22 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class AbstractTest {
-    protected static
-    ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
+    private static Logger logger = LoggerFactory.getLogger(AbstractTest.class);
 
-    protected URL startStandaloneGrid() {
-        int port = PortProber.findFreePort();
-        try {
-            Main.main(
-                    new String[] {
-                            "standalone",
-                            "--port",
-                            String.valueOf(port),
-                            "--selenium-manager",
-                            "true",
-                            "--enable-managed-downloads",
-                            "true",
-                            "--log-level",
-                            "WARNING"
-                    });
-            return new URL("http://localhost:" + port);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    protected static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
 
 
     @BeforeMethod(alwaysRun = true)
     @Parameters(value = "browser")
     public void setUpTest(String browser){
-        WebDriver driver=null;
-        URL gridUrl=startStandaloneGrid();
-        if(browser.equals("Chrome")){
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--no-sandbox");
-            options.setEnableDownloads(true);
-            driver = new RemoteWebDriver(gridUrl, options);
-        } else if (browser.equals("Firefox")){
-            FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("--no-sandbox");
-            options.setEnableDownloads(true);
-            driver = new RemoteWebDriver(gridUrl, options);
-        }
+        DriverFactory driverFactory = new DriverFactory();
+        WebDriver driver = driverFactory.createDriver(browser);
         driver.get("https://automationteststore.com/");
         threadLocalDriver.set(driver);
-
-
     }
 
     public static WebDriver getDriver(){
@@ -77,19 +48,28 @@ public abstract class AbstractTest {
 
 
         try {
-            FileUtils.copyFile(file, new File("./ScreenShot_Folder/test.png"));
+
+            LocalDateTime now = LocalDateTime.now();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            String formattedNow = now.format(formatter);
+            FileUtils.copyFile(file, new File("./ScreenShot_Folder/"+formattedNow+".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         String title = driver.getTitle();
-        System.out.println("Captured Screenshot for: " +title);
+        logger.info("Captured Screenshot for: " +title);
 
     }
 
 
     @AfterMethod(alwaysRun = true)
     public void closeDriver(){
-        getDriver().quit();
-        threadLocalDriver.remove();
+        WebDriver driver=getDriver();
+        if (driver != null){
+            getDriver().quit();
+            threadLocalDriver.remove();
+        }
     }
 }

@@ -1,9 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Parallel Test Suite" parallel="tests" thread-count="2">
+
     <listeners>
         <listener class-name="com.gui.ScreenshotListener"></listener>
     </listeners>
+
+    <!-- Defining the 'browser' parameter for reuse across tests -->
     <parameter name="browser" value="Chrome"/>
+
+    <!-- Test 1 for Chrome -->
     <test name="Test1">
         <groups>
             <run>

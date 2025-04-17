@@ -50,11 +50,27 @@ public class HomePage extends AbstractPage {
     }
 
     public void clickCurrencySelector(){
-        currencySelector.click();
+        super.clickElement(currencySelector, "currencySelector");
     }
 
     public void clickItemInCurrencySelector(Integer item){
         currencyList.get(item).click();
+    }
+
+    public void changeCurrency(String currency){
+        clickCurrencySelector();
+
+        switch(currency){
+            case "£":
+                super.clickElement(currencyList.get(0),"currencyList - Pound Option");
+                break;
+            case "€":
+                super.clickElement(currencyList.get(1),"currencyList - Euro Option");
+                break;
+            case "$":
+                super.clickElement(currencyList.get(2),"currencyList - Dollar Option");
+                break;
+        }
     }
 
 
@@ -64,7 +80,13 @@ public class HomePage extends AbstractPage {
 
 
     public void clickAddToCartButton(){
-        super.clickElement(addToCartButton);
+        super.clickElement(addToCartButton, "addToCartButton");
+    }
+
+    public void addItemsToCart(int numberOfItems){
+        for (int i=0;i<numberOfItems;i++){
+            clickAddToCartButton();
+        }
     }
 
 
@@ -73,14 +95,14 @@ public class HomePage extends AbstractPage {
     }
 
     public ProductsListPage searchKeyWord(String keyword){
-        super.clickElement(searchField);
-        super.sendKeysElement(searchField,keyword);
-        super.clickElement(searchButton);
+        super.clickElement(searchField, "searchField");
+        super.sendKeysElement(searchField,keyword, "searchField");
+        super.clickElement(searchButton, "searchButton");
         return new ProductsListPage(driver);
     }
 
     public LoginPage getLoginPage(){
-        super.clickElement(loginButton);
+        super.clickElement(loginButton, "loginButton");
         return new LoginPage(driver);
     }
 

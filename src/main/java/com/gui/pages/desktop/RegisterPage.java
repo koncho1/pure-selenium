@@ -55,52 +55,52 @@ public class RegisterPage extends AbstractPage {
     private WebElement accountCreatedText;
 
     public void enterFirstName(String firstName){
-        super.sendKeysElement(firstNameField,firstName);
+        super.sendKeysElement(firstNameField,firstName, "firstNameField");
     }
 
     public void enterLastName(String lastName){
-        super.sendKeysElement(lastNameField,lastName);
+        super.sendKeysElement(lastNameField,lastName, "lastNameField");
     }
 
     public void enterEmail(String email){
-        super.sendKeysElement(emailField,email);
+        super.sendKeysElement(emailField,email, "emailField");
     }
 
     public void enterAdress1(String adress){
-        super.sendKeysElement(adress1Field,adress);
+        super.sendKeysElement(adress1Field,adress, "adress1Field");
     }
 
     public void enterCity(String city){
-        super.sendKeysElement(cityField,city);
+        super.sendKeysElement(cityField,city, "cityField");
     }
 
     public void chooseRegion(){
-        super.clickElement(regionSelector);
-        super.clickElement(regionOption.get(2));
+        super.clickElement(regionSelector, "regionSelector");
+        super.clickElement(regionOption.get(2),"regionOption - Aberdeen");
     }
 
     public void enterZipCode(String zipCode){
-        super.sendKeysElement(zipCodeField,zipCode);
+        super.sendKeysElement(zipCodeField,zipCode, "zipCodeField");
     }
 
     public void enterLogin(String login){
-        super.sendKeysElement(loginNameField,login);
+        super.sendKeysElement(loginNameField,login, "loginNameField");
     }
 
     public void enterPassword(String password){
-        super.sendKeysElement(passwordField,password);
+        super.sendKeysElement(passwordField,password, "passwordField");
     }
 
     public void enterConfirmPassword(String confirmPassword){
-        super.sendKeysElement(passwordConfirmField,confirmPassword);
+        super.sendKeysElement(passwordConfirmField,confirmPassword, "passwordConfirmField");
     }
 
     public void checkPrivacyPolicy(){
-        super.clickElement(privacyPolicyCheckbox);
+        super.clickElement(privacyPolicyCheckbox, "privacyPolicyCheckbox");
     }
 
     public void submitRegistration(){
-        super.clickElement(registerButton);
+        super.clickElement(registerButton, "registerButton");
     }
 
     public boolean isAccountCreatedTextPresent(){

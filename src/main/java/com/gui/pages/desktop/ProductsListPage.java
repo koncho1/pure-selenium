@@ -27,7 +27,7 @@ public class ProductsListPage extends AbstractPage {
     }
 
     public boolean isNoProductMessagePresent(){
-        return !(noProductMessage==null);
+        return noProductMessage!=null;
     }
 
     public ProductsListPage(WebDriver driver) {

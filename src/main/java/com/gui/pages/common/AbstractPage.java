@@ -16,22 +16,18 @@ public abstract class AbstractPage {
 
     protected WebDriver driver;
 
-    Wait<WebDriver> wait =
-            new FluentWait<>(driver)
-                    .withTimeout(Duration.ofSeconds(2))
-                    .pollingEvery(Duration.ofMillis(300))
-                    .ignoring(ElementNotInteractableException.class);
+    Wait<WebDriver> wait;
 
-    public void clickElement(WebElement element){
+    public void clickElement(WebElement element, String name){
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
-        logger.info("clicked {}",element);
+        logger.info("clicked on {}",name);
     }
 
-    public void sendKeysElement(WebElement element, String text){
+    public void sendKeysElement(WebElement element, String text, String name){
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(text);
-        logger.info("sent {} to {}",text,element);
+        logger.info("sent {} to {}",text,name);
     }
 
     public void submitElement(WebElement element){
