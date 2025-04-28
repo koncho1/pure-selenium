@@ -1,5 +1,6 @@
 package com.gui.pages.common;
 
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -11,14 +12,11 @@ import java.net.URL;
 
 public class DriverFactory {
 
-    protected URL startStandaloneGrid() {
-        int port = PortProber.findFreePort();
+    protected URL startStandaloneGrid(String hubURL) {
         try {
             Main.main(
-                    new String[] {
+                    new String[]{
                             "standalone",
-                            "--port",
-                            String.valueOf(port),
                             "--selenium-manager",
                             "true",
                             "--enable-managed-downloads",
@@ -26,33 +24,29 @@ public class DriverFactory {
                             "--log-level",
                             "WARNING"
                     });
-            return new URL("http://localhost:" + port);
+            return new URL(hubURL);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to start standalone Selenium Grid", e);
         }
     }
 
-    public WebDriver createDriver(String browser){
+    public WebDriver createDriver(String browser, String hubURL) {
 
-
-
-        WebDriver driver=null;
-        URL gridUrl=startStandaloneGrid();
+        URL gridUrl = startStandaloneGrid(hubURL);
 
         switch (browser) {
             case "Chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--no-sandbox");
                 chromeOptions.setEnableDownloads(true);
-                driver = new RemoteWebDriver(gridUrl, chromeOptions);
-                break;
+                return new RemoteWebDriver(gridUrl, chromeOptions);
             case "Firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments("--no-sandbox");
                 firefoxOptions.setEnableDownloads(true);
-                driver = new RemoteWebDriver(gridUrl, firefoxOptions);
-                break;
+                return new RemoteWebDriver(gridUrl, firefoxOptions);
+            default:
+                throw new NotFoundException("Browser not found");
         }
-        return driver;
     }
 }

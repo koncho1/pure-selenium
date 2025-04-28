@@ -31,20 +31,21 @@ public abstract class AbstractTest {
 
     @BeforeMethod(alwaysRun = true)
     @Parameters(value = "browser")
-    public void setUpTest(String browser){
+    public void setUpTest(String browser) {
+        String hubURL = "http://localhost:4444/wd/hub";
         DriverFactory driverFactory = new DriverFactory();
-        WebDriver driver = driverFactory.createDriver(browser);
+        WebDriver driver = driverFactory.createDriver(browser, hubURL);
         driver.get("https://automationteststore.com/");
         threadLocalDriver.set(driver);
     }
 
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
         return threadLocalDriver.get();
     }
 
-    public static void takeScreenshot(WebDriver driver){
-        TakesScreenshot takesScreenshot = (TakesScreenshot)driver;
-        File file= takesScreenshot.getScreenshotAs(OutputType.FILE);
+    public static void takeScreenshot(WebDriver driver) {
+        TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+        File file = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
 
         try {
@@ -54,20 +55,20 @@ public abstract class AbstractTest {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             String formattedNow = now.format(formatter);
-            FileUtils.copyFile(file, new File("./ScreenShot_Folder/"+formattedNow+".png"));
+            FileUtils.copyFile(file, new File("./ScreenShot_Folder/" + formattedNow + ".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         String title = driver.getTitle();
-        logger.info("Captured Screenshot for: " +title);
+        logger.info("Captured Screenshot for: " + title);
 
     }
 
 
     @AfterMethod(alwaysRun = true)
-    public void closeDriver(){
-        WebDriver driver=getDriver();
-        if (driver != null){
+    public void closeDriver() {
+        WebDriver driver = getDriver();
+        if (driver != null) {
             getDriver().quit();
             threadLocalDriver.remove();
         }

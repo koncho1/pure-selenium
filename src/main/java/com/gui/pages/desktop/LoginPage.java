@@ -2,6 +2,7 @@ package com.gui.pages.desktop;
 
 import com.gui.pages.common.AbstractPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,52 +13,58 @@ import java.time.Duration;
 
 public class LoginPage extends AbstractPage {
 
-    @FindBy (xpath = "//div[contains(@class, 'alert alert-error alert-danger')]")
+    @FindBy(xpath = "//div[contains(@class, 'alert alert-error alert-danger')]")
     private WebElement loginErrorDiv;
 
-    @FindBy (id = "loginFrm_loginname")
+    @FindBy(id = "loginFrm_loginname")
     private WebElement loginField;
 
-    @FindBy (id = "loginFrm_password")
+    @FindBy(id = "loginFrm_password")
     private WebElement passwordField;
 
-    @FindBy (xpath = "//button[contains(@title, 'Login')]")
+    @FindBy(xpath = "//button[contains(@title, 'Login')]")
     private WebElement loginButton;
 
-    @FindBy (xpath = "//button[contains(@title, 'Continue')]")
+    @FindBy(xpath = "//button[contains(@title, 'Continue')]")
     private WebElement registerButton;
 
-    @FindBy (xpath = "//span[contains(@class, 'maintext')]")
+    @FindBy(xpath = "//span[contains(@class, 'maintext')]")
     private WebElement myAccountText;
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public void enterPassword(String password){
-        super.sendKeysElement(passwordField, password, "passwordField");
+    public void enterPassword(String password) {
+        sendKeys(passwordField, password);
     }
 
-    public void enterLogin(String login){
-        super.sendKeysElement(loginField, login, "loginField");
+    public void enterLogin(String login) {
+        sendKeys(loginField, login);
     }
 
-    public void submitCredentials(){
-        super.clickElement(loginButton, "loginButton");
+    public void submitCredentials() {
+        clickElement(loginButton);
     }
 
-    public boolean isUserOnMyAccountPage(){
+    public boolean isUserOnMyAccountPage() {
         return myAccountText.isEnabled();
     }
 
     public boolean isALoginErrorPresent() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, 'alert alert-error alert-danger')]")));
-        return loginErrorDiv.isEnabled();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            wait.until(ExpectedConditions.visibilityOf(loginErrorDiv));
+            return loginErrorDiv.isDisplayed();
+        } catch (TimeoutException e) {
+            logger.warn("Login error not visible");
+            return false;
+        }
+
     }
 
-    public RegisterPage clickRegisterButton(){
-        super.clickElement(registerButton, "registerButton");
+    public RegisterPage clickRegisterButton() {
+        clickElement(registerButton);
         return new RegisterPage(driver);
     }
 
