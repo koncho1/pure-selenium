@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ProductsListPage extends AbstractPage {
     protected WebDriver driver;
 
-    @FindBy(xpath = "//div[contains(@class, 'thumbnails grid row list-inline')]//a[contains(@class, 'prdocutname')]")
+    @FindBy(xpath = "//div[contains(@class, 'thumbnails grid row list-inline')]")
     private List<SearchItem> itemContainerList;
 
     @FindBy(xpath = "//div[contains(@class, 'input-group')]//input")

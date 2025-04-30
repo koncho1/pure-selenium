@@ -13,6 +13,8 @@ import java.time.Duration;
 
 public class LoginPage extends AbstractPage {
 
+    private static final int WAIT_TIME = 3;
+
     @FindBy(xpath = "//div[contains(@class, 'alert alert-error alert-danger')]")
     private WebElement loginErrorDiv;
 
@@ -53,7 +55,7 @@ public class LoginPage extends AbstractPage {
 
     public boolean isALoginErrorPresent() throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME));
             wait.until(ExpectedConditions.visibilityOf(loginErrorDiv));
             return loginErrorDiv.isDisplayed();
         } catch (TimeoutException e) {

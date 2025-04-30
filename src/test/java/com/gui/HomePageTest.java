@@ -12,20 +12,20 @@ public class HomePageTest extends AbstractTest {
 
 
     @Test(groups = "group1", dataProvider = "currencyData")
-    public void testCurrencyChange() {
+    public void testCurrencyChange(String enteredCurrency, String expectedCurrency) {
         HomePage homePage = new HomePage(getDriver());
-        homePage.changeCurrency("£");
-        Assert.assertTrue(homePage.isCurrencyInCartCorrect("£"), "Currency in cart doesn't match the");
+        homePage.changeCurrency(enteredCurrency);
+        Assert.assertTrue(homePage.isCurrencyInCartCorrect(expectedCurrency), "Currency in cart doesn't match the");
     }
 
-    @Test(groups = "group1", dataProvider = "itemCountData")
-    public void testCartItemCount() {
+    @Test(groups = "group13", dataProvider = "itemCountData")
+    public void testCartItemCount(int itemsAddedToCart, String expectedNumberOfItemsInCart) {
         HomePage homePage = new HomePage(getDriver());
-        homePage.addItemsToCart(3);
-        Assert.assertTrue(homePage.isCartItemCountCorrect("3"), "Item count is incorrect");
+        homePage.addItemsToCart(itemsAddedToCart);
+        Assert.assertTrue(homePage.isCartItemCountCorrect(expectedNumberOfItemsInCart), "Item count is incorrect");
     }
 
-    @Test(groups = "group1")
+    @Test(groups = "group13")
     public void testCartTotal() {
         HomePage homePage = new HomePage(getDriver());
         homePage.clickAddToCartButton();
@@ -45,9 +45,9 @@ public class HomePageTest extends AbstractTest {
     @DataProvider(name = "itemCountData")
     public Object[][] itemCountDataProvider() {
         return new Object[][]{
-                {"3", "3"},
-                {"2", "2"},
-                {"5", "5"}
+                {3, "3"},
+                {2, "2"},
+                {5, "5"}
         };
 
     }

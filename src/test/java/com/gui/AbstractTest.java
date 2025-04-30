@@ -20,10 +20,25 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 public abstract class AbstractTest {
+
+    Properties properties = new Properties();
+
+    public void loadProps() {
+
+        try {
+            properties.load(Files.newInputStream(Paths.get("src/test/resources/config.properties")));
+        } catch (IOException e) {
+            logger.info("An error loading the file has occurred");
+        }
+    }
+
     private static Logger logger = LoggerFactory.getLogger(AbstractTest.class);
 
     protected static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
@@ -32,11 +47,16 @@ public abstract class AbstractTest {
     @BeforeMethod(alwaysRun = true)
     @Parameters(value = "browser")
     public void setUpTest(String browser) {
-        String hubURL = "http://localhost:4444/wd/hub";
-        DriverFactory driverFactory = new DriverFactory();
-        WebDriver driver = driverFactory.createDriver(browser, hubURL);
-        driver.get("https://automationteststore.com/");
-        threadLocalDriver.set(driver);
+        try {
+            loadProps();
+            String hubURL = properties.getProperty("selenium_url");
+            DriverFactory driverFactory = new DriverFactory();
+            WebDriver driver = driverFactory.createDriver(browser, hubURL);
+            driver.get("https://automationteststore.com/");
+            threadLocalDriver.set(driver);
+        } catch (Exception e) {
+            logger.error("Error occurred during setup: {}", e.getMessage());
+        }
     }
 
     public static WebDriver getDriver() {
@@ -55,7 +75,7 @@ public abstract class AbstractTest {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             String formattedNow = now.format(formatter);
-            FileUtils.copyFile(file, new File("./ScreenShot_Folder/" + formattedNow + ".png"));
+            FileUtils.copyFile(file, new File("./screenshot_folder/" + formattedNow + ".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

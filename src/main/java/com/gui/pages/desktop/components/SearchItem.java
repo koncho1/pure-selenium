@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 public class SearchItem extends AbstractPage {
 
     @FindBy(xpath = "//a[contains(@class, 'prdocutname')]")
-    WebElement productNameLabel;
+    private WebElement productNameLabel;
 
     public String getText() {
         return productNameLabel.getText();

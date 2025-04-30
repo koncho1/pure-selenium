@@ -1,5 +1,6 @@
 package com.gui.pages.desktop;
 
+import com.gui.model.User;
 import com.gui.pages.common.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,17 +55,17 @@ public class RegisterPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='login-form']//b[text()='%s']")
     private WebElement accountCreatedText;
 
-    public void fillOutRegistrationForm(String firstname, String lastName, String email, String adress, String city, String zipCode, String login, String password) {
-        enterFirstName(firstname);
-        enterLastName(lastName);
-        enterEmail(email);
-        enterAdress1(adress);
-        enterCity(city);
+    public void fillOutRegistrationForm(User user) {
+        enterFirstName(user.getFirstName());
+        enterLastName(user.getLastName());
+        enterEmail(user.getEmail());
+        enterAdress1(user.getAddress());
+        enterCity(user.getCity());
         chooseRegion();
-        enterZipCode(zipCode);
-        enterLogin(login);
-        enterPassword(password);
-        enterConfirmPassword(password);
+        enterZipCode(user.getZipcode());
+        enterLogin(user.getLogin());
+        enterPassword(user.getPassword());
+        enterConfirmPassword(user.getPassword());
         checkPrivacyPolicy();
         submitRegistration();
     }

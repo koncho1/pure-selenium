@@ -31,7 +31,7 @@ public class HomePage extends AbstractPage {
     @FindBy(id = "filter_keyword")
     private WebElement searchField;
 
-    @FindBy(xpath = "//i[contains(@class, 'fa fa-search')]")
+    @FindBy(xpath = "//div[contains(@class, 'button-in-search')]")
     private WebElement searchButton;
 
     @FindBy(xpath = "//ul[contains(@class, 'dropdown-menu currency')]")
