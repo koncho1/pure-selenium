@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public abstract class AbstractPage {
 
-    private static final int WAIT_TIME = 5;
+    private static final int WEBDRIVER_WAIT_SECONDS = 5;
 
     protected static Logger logger = LoggerFactory.getLogger(AbstractPage.class);
 
@@ -39,7 +39,7 @@ public abstract class AbstractPage {
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(WEBDRIVER_WAIT_SECONDS));
         PageFactory.initElements(driver, this);
     }
 }

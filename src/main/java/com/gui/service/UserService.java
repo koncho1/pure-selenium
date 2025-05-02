@@ -4,29 +4,24 @@ import com.gui.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.print.DocFlavor;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
 public class UserService {
+    
+    Properties properties;
 
-    private static Logger logger = LoggerFactory.getLogger(UserService.class);
-
-    Properties properties = new Properties();
-
-    public void loadProps() {
-
-        try {
-            properties.load(Files.newInputStream(Paths.get("src/main/java/com/gui/resources/test_data.properties")));
-        } catch (IOException e) {
-            logger.info("An error loading the file has occurred");
-        }
+    public UserService() {
+        ConfigProvider configProvider = new ConfigProvider();
+        this.properties = configProvider.loadConfig();
     }
 
     public User getUser() {
-        loadProps();
         User user = new User();
         user.setFirstName(properties.getProperty("firstname"));
         user.setLastName(properties.getProperty("lastname"));
