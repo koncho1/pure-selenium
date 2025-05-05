@@ -12,17 +12,17 @@ public class HomePageTest extends AbstractTest {
 
 
     @Test(groups = "group1", dataProvider = "currencyData")
-    public void testCurrencyChange(String enteredCurrency, String expectedCurrency) {
+    public void testCurrencyChange(String selectedCurrencySymbol, String expectedCurrencySymbol) {
         HomePage homePage = new HomePage(getDriver());
-        homePage.changeCurrency(enteredCurrency);
-        Assert.assertTrue(homePage.isCurrencyInCartCorrect(expectedCurrency), "Currency in cart doesn't match the");
+        homePage.changeCurrency(selectedCurrencySymbol);
+        Assert.assertTrue(homePage.isCurrencyInCartCorrect(expectedCurrencySymbol), String.format("Currency in cart is incorrect. Expected: %s", expectedCurrencySymbol));
     }
 
     @Test(groups = "group13", dataProvider = "itemCountData")
     public void testCartItemCount(int itemsAddedToCart, String expectedNumberOfItemsInCart) {
         HomePage homePage = new HomePage(getDriver());
         homePage.addItemsToCart(itemsAddedToCart);
-        Assert.assertTrue(homePage.isCartItemCountCorrect(expectedNumberOfItemsInCart), "Item count is incorrect");
+        Assert.assertTrue(homePage.isCartItemCountCorrect(expectedNumberOfItemsInCart), String.format("Item count is incorrect. Expected: %s", expectedNumberOfItemsInCart));
     }
 
     @Test(groups = "group13")

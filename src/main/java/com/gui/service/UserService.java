@@ -13,12 +13,11 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class UserService {
-    
+
     Properties properties;
 
-    public UserService() {
-        ConfigProvider configProvider = new ConfigProvider();
-        this.properties = configProvider.loadConfig();
+    public UserService(Properties properties) {
+        this.properties = properties;
     }
 
     public User getUser() {
