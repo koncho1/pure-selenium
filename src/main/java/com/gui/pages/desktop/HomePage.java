@@ -22,10 +22,6 @@ public class HomePage extends AbstractPage {
 
     private static final String DOLLAR_SYMBOL = "$";
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(id = "filter_keyword")
@@ -106,6 +102,10 @@ public class HomePage extends AbstractPage {
     public LoginPage openLoginPage() {
         clickElement(loginButton);
         return new LoginPage(driver);
+    }
+
+    public HomePage(WebDriver driver) {
+        super(driver);
     }
 
 }
